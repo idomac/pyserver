@@ -8,7 +8,6 @@ def init():
     thread_helper.thread_start_func(loop())
 
 
-
 def loop():
     while True:
         sync_config_service.sync()
