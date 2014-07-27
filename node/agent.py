@@ -1,23 +1,23 @@
 import argparse
 import os
 import sys
+from common.daemon import Daemon
+from main import main
 
 __author__ = 'quanix'
 
 
-class MyDaemon(object):
+class MyDaemon(Daemon):
 
-    def test(self):
-        print "Hello Test"
+    def __init__(self, pid):
+        super(self.__class__, self).__init__(pid)
 
     def run(self):
-        print 'Hello World'
+        main()
 
 
 if __name__ == "__main__":
-    myDaemon = MyDaemon()
     parser = argparse.ArgumentParser()
-
     parser.add_argument('cmd', default="start", help='start, stop, restart')
     parser.add_argument('-p', '--pidfile', default="./proc/daemon.pid")
 
@@ -28,8 +28,9 @@ if __name__ == "__main__":
     if not os.path.exists(dirname):
         os.makedirs(dirname)
 
+    mydaemon = MyDaemon(pidpath)
     if 'start' == args.cmd:
-        pass
+        mydaemon.start()
     elif 'stop' == args.cmd:
         pass
     elif 'restart' == args.cmd:
